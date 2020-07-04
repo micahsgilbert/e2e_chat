@@ -50,3 +50,7 @@
   margin-top: 15px;
   width: 75%;
 }
+
+#reset-keys:hover {
+  background-color: #ffaaaa;
+}

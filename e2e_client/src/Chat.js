@@ -22,6 +22,7 @@ export default class Chat extends React.Component {
     user_pubkeys: {}}
     this.handleChange = this.handleChange.bind(this)
     this.send = this.send.bind(this)
+    this.resetKeys = this.resetKeys.bind(this)
 
     this.props.socket.emit("get_user_pubkeys")
   }    
@@ -42,7 +43,6 @@ export default class Chat extends React.Component {
       }
     })
   }
-
   handleChange(e) {
     this.setState({[e.target.id]: e.target.value})
   }
@@ -55,12 +55,21 @@ export default class Chat extends React.Component {
     this.props.socket.emit("message_send", message)
     this.setState({message: ""})
   }
+  resetKeys() {
+    let r = window.confirm("Reset your RSA keys?")
+    if (r) {
+      window.localStorage.clear()
+      window.location.reload()
+    }
+  }
+
   render() {
     return (<div id="chat">
       <div id="message-container">
         {this.state.messages.map(m => <Message key={m.id}>{m}</Message>)}
       </div>
       <div id="message-send">
+        <button onClick={this.resetKeys} id="reset-keys">Reset Keys</button>
         <input id="message" value={this.state.message} onChange={this.handleChange} onKeyDown={e => {
           if (e.keyCode === 13) {
             this.send()
