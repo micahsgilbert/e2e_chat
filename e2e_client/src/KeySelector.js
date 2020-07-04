@@ -30,6 +30,7 @@ export default class KeySelector extends React.Component {
     window.localStorage.setItem("publicKey", this.state.public_key)
     window.localStorage.setItem("privateKey", this.state.private_key)
     this.props.socket.emit("existing_pubkey", this.state.public_key)
+    this.props.onFinish()
   }
   render() {
     if (this.state.phase === "init") {

@@ -26,6 +26,11 @@
   float: right;
 }
 
+.message.error {
+  color: #777777;
+  font-style: italic;
+}
+
 .message .time {
   color: #666666;
   font-size: 8pt;

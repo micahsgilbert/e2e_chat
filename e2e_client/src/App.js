@@ -15,8 +15,7 @@ export default class App extends React.Component {
     this.finish = this.finish.bind(this)
   }
   finish() {
-    console.log('done')
-    this.setState("chat")
+    this.setState({phase: "chat"})
   }
   render() {
     if (this.state.phase === "key_selection") {
