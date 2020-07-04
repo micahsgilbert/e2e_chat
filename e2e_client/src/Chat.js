@@ -26,7 +26,8 @@ export default class Chat extends React.Component {
     this.props.socket.on("message_recv", message => {
       let key = new NodeRSA(window.localStorage.getItem("privateKey"))
       message.message = Buffer.from(key.decrypt(message.message, "base64"),"base64").toString()
-      this.state.messages.unshift(message)
+      this.setState({messages: [message, ...this.state.messages]})
+      console.log(this.state.messages)
     })
   }
 
@@ -48,7 +49,11 @@ export default class Chat extends React.Component {
         {this.state.messages.map(m => <Message key={m.id}>{m}</Message>)}
       </div>
       <div id="message-send">
-        <input id="message" value={this.state.message} onChange={this.handleChange}></input>
+        <input id="message" value={this.state.message} onChange={this.handleChange} onKeyDown={e => {
+          if (e.keyCode === 13) {
+            this.send()
+          }
+        }}></input>
         <button onClick={this.send}>Send</button>
       </div>
     </div>)
