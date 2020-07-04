@@ -1,0 +1,16 @@
+{
+  "name": "e2e_chat",
+  "version": "1.0.0",
+  "description": "A react.js, socket.io, and RSA end-to-end encryption web chat app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Micah Gilbert",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-rsa": "^1.0.8",
+    "socket.io": "^2.3.0"
+  }
+}

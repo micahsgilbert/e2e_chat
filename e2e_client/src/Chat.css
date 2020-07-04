@@ -1,0 +1,47 @@
+#message-container {
+  margin: 16px;
+  border-radius: 16px;
+  height: 70vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  background-color: #f0f0f0;
+}
+
+.message {
+  margin: 16px;
+  border-radius: 4px;
+}
+
+.message .text {
+  background-color: #dddddd;
+  max-width: 300px;
+  padding: 8px;
+  border-radius: 4px;
+  float: left;
+}
+
+.message.self .text {
+  text-align: right;
+  float: right;
+}
+
+.message .time {
+  color: #666666;
+  font-size: 8pt;
+  margin-right: 16px;
+}
+
+#message-send {
+  background-color: #f0f0f0;
+  margin: 16px;
+  border-radius: 16px;
+  height: 50px;
+  text-align: center;
+}
+
+#message-send input {
+  height: 20px;
+  margin-top: 15px;
+  width: 75%;
+}
