@@ -8,7 +8,7 @@ export default class App extends React.Component {
     super(props)
     if (window.localStorage.getItem("publicKey") && window.localStorage.getItem("privateKey")) {
       this.state = {phase: "chat"}
-      this.props.socket.emit("existing_pubkey", window.localStorage.getItem("publicKey"))
+      this.props.socket.emit("pubkey_submit", window.localStorage.getItem("publicKey"))
     } else {
       this.state = {phase: "key_selection"}
     }
