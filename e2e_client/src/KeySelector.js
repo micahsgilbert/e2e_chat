@@ -1,5 +1,6 @@
 import React from 'react'
 import "./KeySelector.css"
+import NodeRSA from 'node-rsa'
 
 export default class KeySelector extends React.Component {
   constructor(props) {
@@ -14,14 +15,15 @@ export default class KeySelector extends React.Component {
     this.setState({phase: "have_key"})
   }
   getNewKey() {
-    alert("!!! STOP !!!\nYou MUST be on a secure connection!!!\nDO NOT request a new key if you are not on HTTPS, unless you know EXACTLY what you are doing!\n!!! ENSURE YOU ARE ON A SECURE CONNECTION BEFORE PROCEEDING !!!")
-    this.props.socket.emit("keypair_request")
-    this.props.socket.on("keypair", (k) => {
-      window.localStorage.setItem("publicKey", k.public)
-      window.localStorage.setItem("privateKey", k.private)
-      this.props.onFinish()
-    })
-    this.setState({phase: "new_key"})
+    this.setState({phase: "generating"})
+    let k = new NodeRSA()
+    k.generateKeyPair()
+    let pub = k.exportKey("public")
+    let priv = k.exportKey("private")
+    window.localStorage.setItem("publicKey", pub)
+    window.localStorage.setItem("privateKey", priv)
+    this.props.socket.emit("pubkey_submit", pub)
+    this.props.onFinish()
   }
   handleChange(e) {
     this.setState({[e.target.id]: e.target.value})
@@ -29,7 +31,7 @@ export default class KeySelector extends React.Component {
   submit() {
     window.localStorage.setItem("publicKey", this.state.public_key)
     window.localStorage.setItem("privateKey", this.state.private_key)
-    this.props.socket.emit("existing_pubkey", this.state.public_key)
+    this.props.socket.emit("pubkey_submit", this.state.public_key)
     this.props.onFinish()
   }
   render() {
@@ -39,7 +41,7 @@ export default class KeySelector extends React.Component {
         <h3>I have a key already</h3>
       </div>
       <div className="option" onClick={this.getNewKey}>
-        <h3>I need a new key</h3>
+        <h3>Generate New Key</h3>
       </div>
     </div>)
     } else if (this.state.phase === "have_key") {
@@ -52,7 +54,7 @@ export default class KeySelector extends React.Component {
         <br />
         <button onClick={this.submit}>Submit</button>
       </div>)
-    } else if (this.state.phase === "new_key") {
+    } else if (this.state.phase === "generating") {
       return (<div id="key-selector">
         <h3>Waiting for key...</h3>
       </div>)

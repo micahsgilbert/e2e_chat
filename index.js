@@ -21,16 +21,7 @@ const updatePublicKeys = () => {
 setInterval(updatePublicKeys, 5000)
 
 io.on("connection", socket => {
-  socket.on("keypair_request", () => {
-    const key = new NodeRSA()
-    key.generateKeyPair()
-    const public = key.exportKey("public")
-    const private = key.exportKey("private")
-    socket.emit("keypair", {public, private})
-    socket.public_key = public
-  })
-
-  socket.on("existing_pubkey", public => {
+  socket.on("pubkey_submit", public => {
     socket.public_key = public
   })
 
