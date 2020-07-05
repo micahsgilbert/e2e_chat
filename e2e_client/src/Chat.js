@@ -2,6 +2,7 @@ import React from 'react'
 import "./Chat.css"
 import moment from "moment"
 import NodeRSA from "node-rsa"
+import colorsys from "colorsys"
 
 const Message = (props) => {
   let c = "message "
@@ -12,7 +13,7 @@ const Message = (props) => {
     c += "error "
   }
   return <div className={c}>
-    <span className="text">
+    <span className="text" style={{border: "3px solid " + pubkeyToColor(props.children.pubkey_short)}}>
       <span className="sender" onClick={() => setNickname(props.children.pubkey_short)}>{props.children.self ? "Me" : getNickname(props.children.pubkey_short)}</span>
       <br />
       <span className="time">{moment.unix(props.children.time / 1000).format("YYYY/MM/DD HH:mm:ss")}</span>
@@ -22,19 +23,23 @@ const Message = (props) => {
   </div>
 }
 
-const getNickname = (key) => {
+const getNickname = key => {
   if (!window.localStorage.getItem("key_nickname_mappings")) {
     window.localStorage.setItem("key_nickname_mappings", "{}")
   }
   return JSON.parse(window.localStorage.getItem("key_nickname_mappings"))[key] || key
 }
 
-const setNickname = (key) => {
+const setNickname = key => {
   let j = JSON.parse(window.localStorage.getItem("key_nickname_mappings"))
   j[key] = window.prompt(`Nickname to set for pubkey ${key}`)
   window.localStorage.setItem("key_nickname_mappings", JSON.stringify(j))
 }
 
+const pubkeyToColor = key => {
+  let hueVal = parseInt(key.toLowerCase().replace("+","").replace("/",""),36) % 360
+  return colorsys.hsv_to_hex({h: hueVal, s: 40, v: 85})
+}
 export default class Chat extends React.Component {
   constructor(props) {
     super(props)
