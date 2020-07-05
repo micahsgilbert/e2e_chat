@@ -25,7 +25,7 @@ io.on("connection", socket => {
     socket.public_key = public
   })
 
-  socket.on("get_user_pubkeys", updatePublicKeys)
+  updatePublicKeys()
 
   socket.on("message_send", message => {
     // message will be in the form {userid: encrypted_message,...}
