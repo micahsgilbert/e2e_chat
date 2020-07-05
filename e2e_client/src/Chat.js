@@ -11,7 +11,7 @@ const Message = (props) => {
   if (props.children.error) {
     c += "error "
   }
-  return <div className={c}><span className="text"><span className="time">{moment.unix(props.children.time / 1000).format("YYYY/MM/DD HH:mm:ss")}</span><br />{props.children.message}</span></div>
+return <div className={c}><span className="text"><span className="sender">{props.children.pubkey_short}</span><br /><span className="time">{moment.unix(props.children.time / 1000).format("YYYY/MM/DD HH:mm:ss")}</span><br />{props.children.message}</span></div>
 }
 
 export default class Chat extends React.Component {

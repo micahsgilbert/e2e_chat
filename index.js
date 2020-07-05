@@ -32,7 +32,7 @@ io.on("connection", socket => {
     let time = Date.now()
     let id = crypto.randomBytes(16).toString("hex")
     for (socket_id in message) {
-      io.sockets.connected[socket_id].emit("message_recv", {message: message[socket_id], time, id, self: (socket_id == socket.id)})
+      io.sockets.connected[socket_id].emit("message_recv", {message: message[socket_id], time, id, pubkey_short: socket.public_key.substr(100,10), self: (socket_id == socket.id)})
     }
   })
 })
