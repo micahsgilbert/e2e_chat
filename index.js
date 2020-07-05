@@ -1,7 +1,6 @@
 const express = require('express')
 const http = require("http")
 const socketio = require("socket.io")
-const NodeRSA = require('node-rsa')
 const crypto = require("crypto")
 
 const port = process.env.PORT || 4000
