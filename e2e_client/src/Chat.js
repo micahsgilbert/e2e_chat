@@ -11,7 +11,28 @@ const Message = (props) => {
   if (props.children.error) {
     c += "error "
   }
-return <div className={c}><span className="text"><span className="sender">{props.children.pubkey_short}</span><br /><span className="time">{moment.unix(props.children.time / 1000).format("YYYY/MM/DD HH:mm:ss")}</span><br />{props.children.message}</span></div>
+  return <div className={c}>
+    <span className="text">
+      <span className="sender" onClick={() => setNickname(props.children.pubkey_short)}>{props.children.self ? "Me" : getNickname(props.children.pubkey_short)}</span>
+      <br />
+      <span className="time">{moment.unix(props.children.time / 1000).format("YYYY/MM/DD HH:mm:ss")}</span>
+      <br />
+      {props.children.message}
+    </span>
+  </div>
+}
+
+const getNickname = (key) => {
+  if (!window.localStorage.getItem("key_nickname_mappings")) {
+    window.localStorage.setItem("key_nickname_mappings", "{}")
+  }
+  return JSON.parse(window.localStorage.getItem("key_nickname_mappings"))[key] || key
+}
+
+const setNickname = (key) => {
+  let j = JSON.parse(window.localStorage.getItem("key_nickname_mappings"))
+  j[key] = window.prompt(`Nickname to set for pubkey ${key}`)
+  window.localStorage.setItem("key_nickname_mappings", JSON.stringify(j))
 }
 
 export default class Chat extends React.Component {
@@ -58,7 +79,8 @@ export default class Chat extends React.Component {
   resetKeys() {
     let r = window.confirm("Reset your RSA keys?")
     if (r) {
-      window.localStorage.clear()
+      window.localStorage.removeItem("publicKey")
+      window.localStorage.removeItem("privateKey")
       window.location.reload()
     }
   }
