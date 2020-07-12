@@ -1,29 +1,48 @@
 #message-container {
-  margin: 16px;
-  border-radius: 16px;
-  height: 70vh;
-  overflow: auto;
+  margin: 0 auto;
+  width: 500px;
+  height: 86.9vh;
   display: flex;
+  padding: 16px;
   flex-direction: column-reverse;
-  background-color: #f0f0f0;
+  background-color: #17202A;
+  overflow-y: scroll;
+}
+
+#message-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+#message-container::-webkit-scrollbar-thumb {
+  background: #2C3E50;
 }
 
 .message {
-  margin: 16px;
-  border-radius: 4px;
+  margin: 1px;
 }
 
 .message .text {
-  background-color: #dddddd;
+  background-color: #2C3E50;
   max-width: 300px;
-  padding: 8px;
-  border-radius: 4px;
+  padding: 12px;
   float: left;
+  color: #FDFEFE;
+  border-radius: 16px;
+  font-size: 16px;
+  word-wrap: break-word;
 }
 
 .message.self .text {
-  text-align: right;
+  background-color: #566573;
   float: right;
+}
+
+.message.self .sender {
+  display: none;
+}
+
+.message.self .sender + br {
+  display: none;
 }
 
 .message.error {
@@ -34,28 +53,55 @@
 .message .time {
   color: #666666;
   font-size: 8pt;
-  margin-right: 16px;
+  float: left;
 }
 
 .message .sender {
-  font-weight: bold;
+  font-size: 12px;
+  margin-left: 6px;
   cursor: pointer;
+  color: #ABB2B9;
+  float: left;
 }
 
 #message-send {
-  background-color: #f0f0f0;
-  margin: 16px;
-  border-radius: 16px;
-  height: 50px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  height: 5vh;
+  transform: translateX(-50%);
+  width: 500px;
+  padding: 16px;
+  background-color: #17202A;
+  margin: 0 auto;
   text-align: center;
 }
 
 #message-send input {
-  height: 20px;
-  margin-top: 15px;
-  width: 75%;
+  border: none;
+  outline: none;
+  color: #ABB2B9;
+  background-color: #17202A;
+  font-size: 16px;
+  width: 80%;
 }
 
 #reset-keys:hover {
   background-color: #ffaaaa;
+}
+
+.input-container {
+  border: 1px solid #ABB2B9;
+  border-radius: 16px;
+  padding: 12px;
+}
+
+.input-container button {
+  width: 10%;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #2E86C1;
+  font-weight: bold;
 }
