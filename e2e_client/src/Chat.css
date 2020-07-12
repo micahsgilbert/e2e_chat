@@ -11,6 +11,7 @@
 
 #message-container::-webkit-scrollbar {
   width: 8px;
+  
 }
 
 #message-container::-webkit-scrollbar-thumb {
@@ -51,7 +52,7 @@
 }
 
 .message .time {
-  color: #666666;
+  color: #888888;
   font-size: 8pt;
   float: left;
 }
