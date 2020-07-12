@@ -1,17 +1,18 @@
 #key-selector {
   position: absolute;
-  background-color: #dddddd;
+  background-color: #2C3E50;
   top: 50%;
   left: 50%;
   text-align: center;
   transform: translate(-50%,-50%);
   padding: 48px;
   border-radius: 8px;
-  width: 300px
+  width: 300px;
+  color: #dddddd
 }
 
 #key-selector .option {
-  background-color: #cccccc;
+  background-color: #566573;
   padding: 16px;
   border-radius: 8px;
   cursor: pointer;
