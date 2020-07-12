@@ -8,9 +8,13 @@ const Message = (props) => {
   if (props.children.self) {
     c += "self "
   }
+  if (props.children.showName) {
+    c += "show-name "
+  }
   if (props.children.error) {
     c += "error "
   }
+  
   return <div className={c}>
     <p className="sender" onClick={() => setNickname(props.children.pubkey_short)}>{props.children.self ? "Me" : getNickname(props.children.pubkey_short)}</p>
     <div className="text">
@@ -38,7 +42,9 @@ export default class Chat extends React.Component {
     super(props)
     this.state = {messages: [],
     message: "",
-    user_pubkeys: {}}
+    user_pubkeys: {},
+    previous_sender_pubkey: ""  
+    }
     this.handleChange = this.handleChange.bind(this)
     this.send = this.send.bind(this)
     this.resetKeys = this.resetKeys.bind(this)
@@ -54,6 +60,12 @@ export default class Chat extends React.Component {
       try {
         let key = new NodeRSA(window.localStorage.getItem("privateKey"))
         message.message = Buffer.from(key.decrypt(message.message, "base64"),"base64").toString()
+        if (message.pubkey_short === this.state.previous_sender_pubkey) {
+          message.showName = false;
+        } else {
+          message.showName = true
+        }
+        this.setState({previous_sender_pubkey: message.pubkey_short})
         this.setState({messages: [message, ...this.state.messages]})
       }
       catch {

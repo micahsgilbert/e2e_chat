@@ -42,8 +42,16 @@
   color: #ABB2B9
 }
 
-.message.self .sender {
+.message .sender{
   display: none;
+}
+
+.message.self .sender {
+  display: none !important;
+}
+
+.message.show-name .sender {
+  display: block;
 }
 
 .message.error {
