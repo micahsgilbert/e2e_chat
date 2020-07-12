@@ -14,11 +14,10 @@ const Message = (props) => {
   }
   return <div className={c}>
     <p className="sender" onClick={() => setNickname(props.children.pubkey_short)}>{props.children.self ? "Me" : getNickname(props.children.pubkey_short)}</p>
-    <br/>
-    <div className="text" /*style={{border: "3px solid " + pubkeyToColor(props.children.pubkey_short)}}*/ >
+    <div className="text">
+      <span className={"time"}>{moment.unix(props.children.time / 1000).format("YYYY/MM/DD HH:mm:ss")}</span>
+      <br/>
       {props.children.message}
-      {/*<br/>
-      <span className="time">{moment.unix(props.children.time / 1000).format("YYYY/MM/DD HH:mm:ss")}</span>*/}
     </div>
   </div>
 }
@@ -34,11 +33,6 @@ const setNickname = key => {
   let j = JSON.parse(window.localStorage.getItem("key_nickname_mappings"))
   j[key] = window.prompt(`Nickname to set for pubkey ${key}`)
   window.localStorage.setItem("key_nickname_mappings", JSON.stringify(j))
-}
-
-const pubkeyToColor = key => {
-  let hueVal = parseInt(key.toLowerCase().replace("+","").replace("/",""),36) % 360
-  return colorsys.hsv_to_hex({h: hueVal, s: 40, v: 85})
 }
 export default class Chat extends React.Component {
   constructor(props) {
@@ -73,13 +67,15 @@ export default class Chat extends React.Component {
     this.setState({[e.target.id]: e.target.value})
   }
   send() {
-    let message = {}
-    for (let user_id in this.state.user_pubkeys) {
-      let key = new NodeRSA(this.state.user_pubkeys[user_id])
-      message[user_id] = key.encrypt(this.state.message, "base64")
+    if (this.state.message.length > 0) {
+      let message = {}
+      for (let user_id in this.state.user_pubkeys) {
+        let key = new NodeRSA(this.state.user_pubkeys[user_id])
+        message[user_id] = key.encrypt(this.state.message, "base64")
+      }
+      this.props.socket.emit("message_send", message)
+      this.setState({message: ""})
     }
-    this.props.socket.emit("message_send", message)
-    this.setState({message: ""})
   }
   resetKeys() {
     let r = window.confirm("Reset your RSA keys?")

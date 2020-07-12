@@ -1,11 +1,11 @@
 #message-container {
   margin: 0 auto;
   width: 500px;
-  height: 86.9vh;
+  height: 100%;
+  transform: translateY(-80px);
   display: flex;
-  padding: 16px;
+  padding-bottom: 80px;
   flex-direction: column-reverse;
-  background-color: #17202A;
   overflow-y: scroll;
 }
 
@@ -18,18 +18,18 @@
 }
 
 .message {
-  margin: 1px;
+  margin: 2px;
 }
 
 .message .text {
   background-color: #2C3E50;
   max-width: 300px;
   padding: 12px;
-  float: left;
   color: #FDFEFE;
   border-radius: 16px;
   font-size: 16px;
   word-wrap: break-word;
+  float: left;
 }
 
 .message.self .text {
@@ -37,11 +37,11 @@
   float: right;
 }
 
-.message.self .sender {
-  display: none;
+.message.self .time {
+  color: #ABB2B9
 }
 
-.message.self .sender + br {
+.message.self .sender {
   display: none;
 }
 
@@ -61,19 +61,18 @@
   margin-left: 6px;
   cursor: pointer;
   color: #ABB2B9;
-  float: left;
+  margin: 4px 0 0 4px;
 }
 
 #message-send {
   position: fixed;
-  bottom: 0;
+  bottom: 16px;
+  height: 48px;
   left: 50%;
-  height: 5vh;
   transform: translateX(-50%);
   width: 500px;
-  padding: 16px;
   background-color: #17202A;
-  margin: 0 auto;
+  margin: auto;
   text-align: center;
 }
 
@@ -81,9 +80,10 @@
   border: none;
   outline: none;
   color: #ABB2B9;
-  background-color: #17202A;
   font-size: 16px;
   width: 80%;
+  background-color: #17202A;
+
 }
 
 #reset-keys:hover {
