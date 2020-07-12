@@ -13,13 +13,13 @@ const Message = (props) => {
     c += "error "
   }
   return <div className={c}>
-    <span className="text" style={{border: "3px solid " + pubkeyToColor(props.children.pubkey_short)}}>
-      <span className="sender" onClick={() => setNickname(props.children.pubkey_short)}>{props.children.self ? "Me" : getNickname(props.children.pubkey_short)}</span>
-      <br />
-      <span className="time">{moment.unix(props.children.time / 1000).format("YYYY/MM/DD HH:mm:ss")}</span>
-      <br />
+    <p className="sender" onClick={() => setNickname(props.children.pubkey_short)}>{props.children.self ? "Me" : getNickname(props.children.pubkey_short)}</p>
+    <br/>
+    <div className="text" /*style={{border: "3px solid " + pubkeyToColor(props.children.pubkey_short)}}*/ >
       {props.children.message}
-    </span>
+      {/*<br/>
+      <span className="time">{moment.unix(props.children.time / 1000).format("YYYY/MM/DD HH:mm:ss")}</span>*/}
+    </div>
   </div>
 }
 
@@ -96,13 +96,15 @@ export default class Chat extends React.Component {
         {this.state.messages.map(m => <Message key={m.id}>{m}</Message>)}
       </div>
       <div id="message-send">
-        <button onClick={this.resetKeys} id="reset-keys">Reset Keys</button>
-        <input id="message" value={this.state.message} onChange={this.handleChange} onKeyDown={e => {
-          if (e.keyCode === 13) {
-            this.send()
-          }
-        }}></input>
-        <button onClick={this.send}>Send</button>
+        {/* <button onClick={this.resetKeys} id="reset-keys">Reset Keys</button> */}
+        <div className="input-container">
+          <input id="message" value={this.state.message} placeholder="Message..." onChange={this.handleChange} onKeyDown={e => {
+            if (e.keyCode === 13) {
+              this.send()
+            }
+          }}></input>
+          <button onClick={this.send}>Send</button>
+        </div>
       </div>
     </div>)
   }
