@@ -2,7 +2,6 @@ import React from 'react'
 import "./Chat.css"
 import moment from "moment"
 import NodeRSA from "node-rsa"
-import colorsys from "colorsys"
 
 const Message = (props) => {
   let c = "message "
@@ -61,6 +60,10 @@ export default class Chat extends React.Component {
         message.message = "error decrypting"
         message.error = true
       }
+    })
+    this.props.socket.on("clear_data_err", () => {
+      window.alert("An unexpected error occurred. Your keys will be cleared and the page will be refreshed.")
+      this.resetKeys()
     })
   }
   handleChange(e) {

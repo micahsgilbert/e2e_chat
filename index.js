@@ -28,10 +28,15 @@ io.on("connection", socket => {
 
   socket.on("message_send", message => {
     // message will be in the form {userid: encrypted_message,...}
-    let time = Date.now()
-    let id = crypto.randomBytes(16).toString("hex")
-    for (socket_id in message) {
-      io.sockets.connected[socket_id].emit("message_recv", {message: message[socket_id], time, id, pubkey_short: socket.public_key.substr(100,10), self: (socket_id == socket.id)})
+    try {
+      let time = Date.now()
+      let id = crypto.randomBytes(16).toString("hex")
+      for (socket_id in message) {
+        io.sockets.connected[socket_id].emit("message_recv", {message: message[socket_id], time, id, pubkey_short: socket.public_key.substr(100,10), self: (socket_id == socket.id)})
+      }
+    } catch (e) {
+      console.log("Error: ", e)
+      socket.emit("clear_data_err")
     }
   })
 })
